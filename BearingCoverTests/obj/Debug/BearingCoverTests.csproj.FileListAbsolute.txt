@@ -1,0 +1,9 @@
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\bin\Debug\BearingCoverTests.dll
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\bin\Debug\BearingCoverTests.pdb
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\bin\Debug\bearingCover.exe
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\bin\Debug\bearingCover.pdb
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\obj\Debug\BearingCoverTests.csprojResolveAssemblyReference.cache
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\obj\Debug\BearingCoverTests.dll
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\obj\Debug\BearingCoverTests.pdb
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\bin\Debug\nunit.framework.dll
+C:\Users\Waldemar\Desktop\bearingcover\BearingCoverTests\bin\Debug\nunit.framework.xml
