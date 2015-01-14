@@ -30,34 +30,9 @@ namespace bearingCover
         private readonly BearingCoverModel _model;
 
 		/// <summary>
-		/// Окружение
+		/// Словарь цветовых параметров
 		/// </summary>
-		private const double _ambient = .5;
-
-		/// <summary>
-		/// Рассеивание
-		/// </summary>
-		private const double _diffuse = .6;
-
-		/// <summary>
-		/// Зеркальность
-		/// </summary>
-		private const double _specularity = .8;
-
-		/// <summary>
-		/// Блеск
-		/// </summary>
-		private const double _shininess = .8;
-
-		/// <summary>
-		/// Прозрачность
-		/// </summary>
-		private const double _transparency = 1;
-
-		/// <summary>
-		/// Излучение
-		/// </summary>
-		private const double _emission = .5;
+		private readonly Dictionary<string, double> _colorParams = new Dictionary<string,double>();
 
         /// <summary>
         /// Конструктор класса <see cref="BearingCoverDrawer"/>
@@ -70,7 +45,21 @@ namespace bearingCover
             _kompas = ksObject;
             _document = ksDocument;
             _model = model;
+			InitColorParamters();
         }
+
+		/// <summary>
+		/// Инициализация цветовых параметров
+		/// </summary>
+		private void InitColorParamters()
+		{
+			_colorParams.Add("ambient", .5);
+			_colorParams.Add("diffuse", .6);
+			_colorParams.Add("specularity", .8);
+			_colorParams.Add("shininess", .8);
+			_colorParams.Add("transparency", 1);
+			_colorParams.Add("emission", .5);
+		}
 
         /// <summary>
         /// Нарисовать крышку подшипника
@@ -81,25 +70,26 @@ namespace bearingCover
             // Численные константы
             // Первый параметр - смещение по оси
             // Второй, если есть - длина элемента вдоль той же оси
-            try
-            {
-				DrawExBear(0, _model.CoverThickness);
-				DrawBorder(_model.FrontProjection, _model.BorderThickness);
-				DrawInBear(_model.CentralHoleDepth, -(_model.CentralHoleDepth));
-				DrawHoles((_model.CoverThickness - _model.RearProjection),
-					-(_model.BorderThickness), _model.HolesNumber);
-				DrawAroundHoles((_model.CoverThickness - _model.RearProjection),
-					-1, _model.HolesNumber);
+			//try
+			//{
+				DrawExBear(0, _model.CoverThickness.Value);
+				DrawBorder(_model.FrontProjection.Value, _model.BorderThickness.Value);
+				DrawInBear(_model.CentralHoleDepth.Value, -(_model.CentralHoleDepth.Value));
+				DrawHoles((_model.CoverThickness.Value - _model.RearProjection.Value),
+					-(_model.BorderThickness.Value), _model.HolesNumber.Value);
+				DrawAroundHoles((_model.CoverThickness.Value - _model.RearProjection.Value),
+					-1, _model.HolesNumber.Value);
 				Fillet(5);
-				if (_model.AngleCut != 0)
+				if (_model.AngleCut.Value != 0)
 				{
-					Cut(50, _model.AngleCut);
+					Cut(50, _model.AngleCut.Value);
 				}
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("При отрисовке крышки подшипника произошла ошибка: " + ex.ToString());
-            }
+			//}
+			//catch (Exception ex)
+			//{
+			//	//TODO:
+			//	MessageBox.Show("При отрисовке крышки подшипника произошла ошибка: " + ex.ToString());
+			//}
         }
 
 		/// <summary>
@@ -112,7 +102,7 @@ namespace bearingCover
 			ksEntity sketch;
 			ksSketchDefinition sketchDef;
 
-			var radius = _model.OutDiameterCentralHole / 2;
+			var radius = _model.OutDiameterCentralHole.Value / 2;
 
 			CreateSketch(out sketch, out sketchDef, start);
 			var editSketch = (ksDocument2D)sketchDef.BeginEdit();
@@ -134,7 +124,7 @@ namespace bearingCover
 			ksEntity sketch;
 			ksSketchDefinition sketchDef;
 
-			var radius = _model.InDiameterCentralHole / 2;
+			var radius = _model.InDiameterCentralHole.Value / 2;
 
 			CreateSketch(out sketch, out sketchDef, start);
 			var editSketch = (ksDocument2D)sketchDef.BeginEdit();
@@ -158,7 +148,7 @@ namespace bearingCover
 			ksSketchDefinition sketchDef;
 
 			// Радиус крышки подшипника
-			var radius = _model.BearingCoverDiameter / 2;
+			var radius = _model.BearingCoverDiameter.Value / 2;
 
 			// Создать эскиз
 			CreateSketch(out sketch, out sketchDef, start);
@@ -187,10 +177,10 @@ namespace bearingCover
 			var editSketch = (ksDocument2D)sketchDef.BeginEdit();
 
 			// Радиус отверстий
-			var radius = _model.HolesDiameter / 2;
+			var radius = _model.HolesDiameter.Value / 2;
 
 			// Расстояние от центра до отверстий
-			var distance = _model.HolesDistance / 2;
+			var distance = _model.HolesDistance.Value / 2;
 
 			// Координаты X, Y и угол поворота
 			double x = 0;
@@ -229,10 +219,10 @@ namespace bearingCover
 			var editSketch = (ksDocument2D)sketchDef.BeginEdit();
 
 			// Радиус отверстий
-			var radius = _model.DistanceAroundHoles / 2;
+			var radius = _model.DistanceAroundHoles.Value / 2;
 
 			// Расстояние от центра до отверстий
-			var distance = _model.HolesDistance / 2;
+			var distance = _model.HolesDistance.Value / 2;
 
 			// Координаты X, Y и угол поворота
 			double x = 0;
@@ -346,8 +336,9 @@ namespace bearingCover
                 extrDef.SetThinParam(true, direction == (short)Direction_Type.dtNormal ? true : false, thickness, thickness);
             }
             extrDef.SetSketch(sketch);
-			extr.SetAdvancedColor(_model.Color, _ambient, _diffuse, _specularity, _shininess,
-				_transparency, _emission);
+			extr.SetAdvancedColor(_model.Color, _colorParams["ambient"], _colorParams["diffuse"],
+				_colorParams["specularity"], _colorParams["shininess"],
+				_colorParams["transparency"], _colorParams["emission"]);
             extr.Create();
         }
 
@@ -396,8 +387,9 @@ namespace bearingCover
 			EntityCollectionFillet.Add(EntityCollectionPart.GetByIndex(3));
 			EntityCollectionFillet.Add(EntityCollectionPart.GetByIndex(4));
 			EntityCollectionFillet.Add(EntityCollectionPart.GetByIndex(6));
-			fillet.SetAdvancedColor(_model.Color, _ambient, _diffuse, _specularity, _shininess,
-				_transparency, _emission);
+			fillet.SetAdvancedColor(_model.Color, _colorParams["ambient"], _colorParams["diffuse"],
+				_colorParams["specularity"], _colorParams["shininess"],
+				_colorParams["transparency"], _colorParams["emission"]);
 			fillet.Create();
 		}
 

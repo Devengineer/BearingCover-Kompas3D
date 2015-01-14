@@ -122,8 +122,10 @@ namespace bearingCover
             // Получаем параметры модели
             _paramsModel = GetCurrentParams();
 
+			// Начало отсчета
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
+
 			for (int count = 0; count < 1; count++)
 			{
 				// Создаем документ
@@ -151,14 +153,23 @@ namespace bearingCover
 					doc.DeleteObject(entity);
 				}
 
-				_drawer = new BearingCoverDrawer(kompas, doc, _paramsModel);
-				//TODO:
-				_drawer.Draw();
+				try
+				{
+					_drawer = new BearingCoverDrawer(kompas, doc, _paramsModel);
+					_drawer.Draw();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("При отрисовке крышки подшипника произошла ошибка: " + ex.ToString());
+				}
 			}
+
+			// Конец отсчета
 			stopwatch.Stop();
+			
+			// Результат
 			Console.WriteLine("Построение завершилось за {0} секунд",
 				stopwatch.Elapsed.TotalSeconds);
-
         }
 
         /// <summary>

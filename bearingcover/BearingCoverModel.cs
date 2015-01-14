@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 namespace bearingCover
 {
@@ -7,6 +8,8 @@ namespace bearingCover
     /// </summary>
     public class BearingCoverModel
     {
+		private List<Parameter> _parameters = new List<Parameter>();
+
 		/// <summary>
 		/// Проверка корректности параметров
 		/// </summary>
@@ -15,99 +18,121 @@ namespace bearingCover
 		{
 			try
 			{
-				if ((HolesNumber != 4) && (HolesNumber !=6))
+				foreach (var parameter in _parameters)
+				{
+					if ((parameter.Value < parameter.Min)
+						|| (parameter.Value > parameter.Max))
+					{
+						throw new Exception(String.Format("{0} должен находиться в пределах от {1} до {2} мм", parameter.Description, parameter.Min, parameter.Max));
+					}
+				}
+				if ((HolesNumber.Value != HolesNumber.Min) && (HolesNumber.Value != HolesNumber.Max))
 				{
 					throw new Exception("Число отверстий должно быть равно 4 или 6");
 				}
 
-				if (CoverThickness < 16 || CoverThickness > 34)
-				{
-					throw new Exception("Толщина крышки должна находиться в пределах от 16 до 34 мм");
-				}
+				//if (CoverThickness.Value < CoverThickness.Min ||
+				//	CoverThickness.Value > CoverThickness.Max)
+				//{
+				//	throw new Exception("Толщина крышки должна находиться в пределах от 16 до 34 мм");
+				//}
 
-				if (FrontProjection < 5 || FrontProjection > 10)
-				{
-					throw new Exception("Выступ спереди должен находиться в пределах от 5 до 10 мм");
-				}
+				//if (FrontProjection.Value < FrontProjection.Min ||
+				//	FrontProjection.Value > FrontProjection.Max)
+				//{
+				//	throw new Exception("Выступ спереди должен находиться в пределах от 5 до 10 мм");
+				//}
 
-				if (BorderThickness < 7 || BorderThickness > 18)
-				{
-					throw new Exception("Толщина окантовки должна находиться в пределах от 7 до 18 мм");
-				}
+				//if (BorderThickness.Value < BorderThickness.Min ||
+				//	BorderThickness.Value > BorderThickness.Max)
+				//{
+				//	throw new Exception("Толщина окантовки должна находиться в пределах от 7 до 18 мм");
+				//}
 
-				if (RearProjection < 3 || RearProjection > 10)
-				{
-					throw new Exception("Выступ сзади должен находиться в пределах от 3 до 10 мм");
-				}
+				//if (RearProjection.Value < RearProjection.Min ||
+				//	RearProjection.Value > RearProjection.Max)
+				//{
+				//	throw new Exception("Выступ сзади должен находиться в пределах от 3 до 10 мм");
+				//}
 
-				if (CentralHoleDepth < 10 || CentralHoleDepth > 20)
-				{
-					throw new Exception("Глубина центрального отверстия должна находиться в пределах от 10 до 20 мм");
-				}
+				//if (CentralHoleDepth.Value < CentralHoleDepth.Min ||
+				//	CentralHoleDepth.Value > CentralHoleDepth.Max)
+				//{
+				//	throw new Exception("Глубина центрального отверстия должна находиться в пределах от 10 до 20 мм");
+				//}
 
-				if (PosteriorWallThickness < 6 || PosteriorWallThickness > 14)
-				{
-					throw new Exception("Толщина задней стенки должна находиться в пределах от 6 до 14 мм");
-				}
+				//if (PosteriorWallThickness.Value < PosteriorWallThickness.Min ||
+				//	PosteriorWallThickness.Value > PosteriorWallThickness.Max)
+				//{
+				//	throw new Exception("Толщина задней стенки должна находиться в пределах от 6 до 14 мм");
+				//}
 
-				if (OutDiameterCentralHole < 110 || OutDiameterCentralHole > 400)
-				{
-					throw new Exception("Диаметр внешней стенки центрального отверстия должен находиться в пределах от 110 до 400 мм");
-				}
+				//if (OutDiameterCentralHole.Value < OutDiameterCentralHole.Min ||
+				//	OutDiameterCentralHole.Value > OutDiameterCentralHole.Max)
+				//{
+				//	throw new Exception("Диаметр внешней стенки центрального отверстия должен находиться в пределах от 110 до 400 мм");
+				//}
 
-				if (HolesDistance < 130 || HolesDistance > 450)
-				{
-					throw new Exception("Расстояние между отверстиями должно находиться в пределах от 130 до 450 мм");
-				}
+				//if (HolesDistance.Value < HolesDistance.Min ||
+				//	HolesDistance.Value > HolesDistance.Max)
+				//{
+				//	throw new Exception("Расстояние между отверстиями должно находиться в пределах от 130 до 450 мм");
+				//}
 
-				if (InDiameterCentralHole < 100 || InDiameterCentralHole > 372)
-				{
-					throw new Exception("Диаметр внутренней стенки центрального отверстия должен находиться в пределах от 100 до 372 мм");
-				}
+				//if (InDiameterCentralHole.Value < InDiameterCentralHole.Min ||
+				//	InDiameterCentralHole.Value > InDiameterCentralHole.Max)
+				//{
+				//	throw new Exception("Диаметр внутренней стенки центрального отверстия должен находиться в пределах от 100 до 372 мм");
+				//}
 
-				if (BearingCoverDiameter < 155 || BearingCoverDiameter > 490)
-				{
-					throw new Exception("Диаметр крышки подшипника должен находиться в пределах от 155 до 490 мм");
-				}
+				//if (BearingCoverDiameter.Value < BearingCoverDiameter.Min ||
+				//	BearingCoverDiameter.Value > BearingCoverDiameter.Max)
+				//{
+				//	throw new Exception("Диаметр крышки подшипника должен находиться в пределах от 155 до 490 мм");
+				//}
 
-				if (HolesDiameter < 11 || HolesDiameter > 22)
-				{
-					throw new Exception("Диаметр отверстий должен находиться в пределах от 11 до 22 мм");
-				}
+				//if (HolesDiameter.Value < HolesDiameter.Min ||
+				//	HolesDiameter.Value > HolesDiameter.Max)
+				//{
+				//	throw new Exception("Диаметр отверстий должен находиться в пределах от 11 до 22 мм");
+				//}
 
-				if (DistanceAroundHoles < 20 || DistanceAroundHoles > 36)
-				{
-					throw new Exception("Диаметр вокруг отверстий должен находиться в пределах от 20 до 36 мм");
-				}
+				//if (DistanceAroundHoles.Value < DistanceAroundHoles.Min ||
+				//	DistanceAroundHoles.Value > DistanceAroundHoles.Max)
+				//{
+				//	throw new Exception("Диаметр вокруг отверстий должен находиться в пределах от 20 до 36 мм");
+				//}
 
-				if (DistanceAroundHoles < HolesDiameter)
+				if (DistanceAroundHoles.Value < HolesDiameter.Value)
 				{
 					throw new Exception("Диаметр вокруг отверстий должен быть больше диаметра отверстий");
 				}
 
-				if (DistanceAroundHoles > BearingCoverDiameter - HolesDistance)
+				if (DistanceAroundHoles.Value > BearingCoverDiameter.Value - HolesDistance.Value)
 				{
 					throw new Exception("Диаметр вокруг отверстий должен быть меньше разницы диаметров D3 и D1");
 				}
 
-				if (InDiameterCentralHole > OutDiameterCentralHole)
+				if (InDiameterCentralHole.Value > OutDiameterCentralHole.Value)
 				{
 					throw new Exception("Диаметр внутр. стенки центрального отверстия должен быть меньше диаметра внешн. стенки центрального отверстия");
 				}
 
-				if (OutDiameterCentralHole > HolesDistance)
+				if (OutDiameterCentralHole.Value > HolesDistance.Value)
 				{
 					throw new Exception("Диаметр внешн. стенки центрального отверстия должен быть меньше расстояния между отверстиями");
 				}
 
-				if (HolesDistance > BearingCoverDiameter)
+				if (HolesDistance.Value > BearingCoverDiameter.Value)
 				{
 					throw new Exception("Расстояние между отверстиями должно быть меньше диаметра крышки подшипника");
 				}
-				if (AngleCut < 0 || AngleCut > 359)
-				{
-					throw new Exception("Угол разреза должен находиться в пределах от 0 до 359 градусов");
-				}
+
+				//if (AngleCut.Value < AngleCut.Min ||
+				//	AngleCut.Value > AngleCut.Max)
+				//{
+				//	throw new Exception("Угол разреза должен находиться в пределах от 0 до 359 градусов");
+				//}
 			}
 			catch (Exception ex)
 			{
@@ -126,7 +151,8 @@ namespace bearingCover
 		{
 			try
 			{
-				if (CoverThickness != BorderThickness + FrontProjection + RearProjection)
+				if (CoverThickness.Value != BorderThickness.Value + FrontProjection.Value +
+					RearProjection.Value)
 				{
 					throw new Exception("Толщина крышки должна быть равна сумме h, h1 и h2");
 				}
@@ -160,21 +186,22 @@ namespace bearingCover
 		/// <param name="AngleCut">Угол разреза</param>
 		public BearingCoverModel()
 		{
-			this.HolesNumber = 6;
-			this.CoverThickness = 34;
-			this.FrontProjection = 10;
-			this.BorderThickness = 18;
-			this.RearProjection = 6;
-			this.CentralHoleDepth = 20;
-			this.PosteriorWallThickness = 14;
-			this.OutDiameterCentralHole = 400;
-			this.HolesDistance = 450;
-			this.InDiameterCentralHole = 372;
-			this.BearingCoverDiameter = 490;
-			this.HolesDiameter = 22;
-			this.DistanceAroundHoles = 36;
+			InitParams(6, 34, 10, 18, 6, 20, 14, 400, 450, 372, 490, 22, 36, 0);
+			//this.HolesNumber = 6;
+			//this.CoverThickness = 34;
+			//this.FrontProjection = 10;
+			//this.BorderThickness = 18;
+			//this.RearProjection = 6;
+			//this.CentralHoleDepth = 20;
+			//this.PosteriorWallThickness = 14;
+			//this.OutDiameterCentralHole = 400;
+			//this.HolesDistance = 450;
+			//this.InDiameterCentralHole = 372;
+			//this.BearingCoverDiameter = 490;
+			//this.HolesDiameter = 22;
+			//this.DistanceAroundHoles = 36;
 			this.Color = -7303024;
-			this.AngleCut = 0;
+			//this.AngleCut = 0;
 		}
 
 		/// <summary>
@@ -201,87 +228,234 @@ namespace bearingCover
 			int InDiameterCentralHole, int BearingCoverDiameter, int HolesDiameter,
 			int DistanceAroundHoles, int Color, int AngleCut)
 		{
-			this.HolesNumber = HolesNumber;
-			this.CoverThickness = CoverThickness;
-			this.FrontProjection = FrontProjection;
-			this.BorderThickness = BorderThickness;
-			this.RearProjection = RearProjection;
-			this.CentralHoleDepth = CentralHoleDepth;
-			this.PosteriorWallThickness = PosteriorWallThickness;
-			this.OutDiameterCentralHole = OutDiameterCentralHole;
-			this.HolesDistance = HolesDistance;
-			this.InDiameterCentralHole = InDiameterCentralHole;
-			this.BearingCoverDiameter = BearingCoverDiameter;
-			this.HolesDiameter = HolesDiameter;
-			this.DistanceAroundHoles = DistanceAroundHoles;
+			InitParams(HolesNumber, CoverThickness, FrontProjection,
+				BorderThickness, RearProjection, CentralHoleDepth,
+				PosteriorWallThickness, OutDiameterCentralHole, HolesDistance,
+				InDiameterCentralHole, BearingCoverDiameter, HolesDiameter,
+				DistanceAroundHoles, AngleCut);
+			//this.HolesNumber = HolesNumber;
+			//this.CoverThickness = CoverThickness;
+			//this.FrontProjection = FrontProjection;
+			//this.BorderThickness = BorderThickness;
+			//this.RearProjection = RearProjection;
+			//this.CentralHoleDepth = CentralHoleDepth;
+			//this.PosteriorWallThickness = PosteriorWallThickness;
+			//this.OutDiameterCentralHole = OutDiameterCentralHole;
+			//this.HolesDistance = HolesDistance;
+			//this.InDiameterCentralHole = InDiameterCentralHole;
+			//this.BearingCoverDiameter = BearingCoverDiameter;
+			//this.HolesDiameter = HolesDiameter;
+			//this.DistanceAroundHoles = DistanceAroundHoles;
 			this.Color = Color;
-			this.AngleCut = AngleCut;
+			//this.AngleCut = AngleCut;
 		}
 
-        /// <summary>
-        /// Число отверстий - n
-        /// </summary>
-        public int HolesNumber { get; private set; }
+		/// <summary>
+		/// Инициализация параметров
+		/// </summary>
+		/// <param name="holesNumber"></param>
+		/// <param name="coverThickness"></param>
+		/// <param name="frontProjection"></param>
+		/// <param name="borderThickness"></param>
+		/// <param name="rearProjection"></param>
+		/// <param name="centralHoleDepth"></param>
+		/// <param name="posteriorWallThickness"></param>
+		/// <param name="outDiameterCentralHole"></param>
+		/// <param name="holesDistance"></param>
+		/// <param name="inDiameterCentralHole"></param>
+		/// <param name="bearingCoverDiameter"></param>
+		/// <param name="holesDiameter"></param>
+		/// <param name="distanceAroundHoles"></param>
+		/// <param name="angleCut"></param>
+		private void InitParams(int holesNumber, int coverThickness, int frontProjection,
+			int borderThickness, int rearProjection, int centralHoleDepth,
+			int posteriorWallThickness, int outDiameterCentralHole, int holesDistance,
+			int inDiameterCentralHole, int bearingCoverDiameter, int holesDiameter,
+			int distanceAroundHoles, int angleCut)
+		{
+			_parameters.Add(new Parameter("holesNumber", "Число отверстий", holesNumber, 4, 6));
+			_parameters.Add(new Parameter("coverThickness", "Толщина крышки", coverThickness, 16, 34));
+			_parameters.Add(new Parameter("frontProjection", "Выступ спереди", frontProjection, 5, 10));
+			_parameters.Add(new Parameter("borderThickness", "Толщина окантовки", borderThickness, 7, 18));
+			_parameters.Add(new Parameter("rearProjection", "Выступ сзади", rearProjection, 3, 10));
+			_parameters.Add(new Parameter("centralHoleDepth", "Глубина центрального отверстия", centralHoleDepth, 10, 20));
+			_parameters.Add(new Parameter("posteriorWallThickness", "Толщина задней стенки", posteriorWallThickness,
+				6, 14));
+			_parameters.Add(new Parameter("outDiameterCentralHole", "Диаметр внешней стенки центрального отверстия", outDiameterCentralHole,
+				110, 400));
+			_parameters.Add(new Parameter("holesDistance", "Расстояние между отверстиями", holesDistance, 130, 450));
+			_parameters.Add(new Parameter("inDiameterCentralHole", "Диаметр внутренней стенки центрального отверстия", inDiameterCentralHole,
+				100, 372));
+			_parameters.Add(new Parameter("bearingCoverDiameter", "Диаметр крышки подшипника", bearingCoverDiameter,
+				155, 490));
+			_parameters.Add(new Parameter("holesDiameter", "Диаметр отверстий", holesDiameter, 11, 22));
+			_parameters.Add(new Parameter("distanceAroundHoles", "Диаметр вокруг отверстий", distanceAroundHoles,
+				20, 36));
+			//this.Color = -7303024;
+			_parameters.Add(new Parameter("angleCut", "Угол разреза", angleCut, 0, 359));
+		}
 
-        /// <summary>
-        /// Толщина крышки - H
-        /// </summary>
-        public int CoverThickness { get; private set; }
+		public struct Parameter
+		{
+			public string Name { get; private set; }
+			public string Description { get; private set; }
+			public int Value { get; set; }
+			public int Min { get; private set; }
+			public int Max { get; private set; }
 
-        /// <summary>
-        /// Выступ спереди - h
-        /// </summary>
-        public int FrontProjection { get; private set; }
+			//public Parameter(string description, int value, int min, int max)
+			public Parameter(string name, string description, int value, int min, int max) : this()
+			{
+				Name = name;
+				Description = description;
+				Value = value;
+				Min = min;
+				Max = max;
+			}
+		}
 
-        /// <summary>
-        /// Толщина окантовки - h1
-        /// </summary>
-        public int BorderThickness { get; private set; }
+		/// <summary>
+		/// Число отверстий - n
+		/// </summary>
+		public Parameter HolesNumber
+		{ 
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "holesNumber");
+			}
+		}
 
-        /// <summary>
-        /// Выступ сзади - h2
-        /// </summary>
-        public int RearProjection { get; private set; }
+		/// <summary>
+		/// Толщина крышки - H
+		/// </summary>
+		public Parameter CoverThickness
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "coverThickness");
+			}
+		}
 
-        /// <summary>
-        /// Глубина центрального отверстия - l
-        /// </summary>
-        public int CentralHoleDepth { get; private set; }
+		/// <summary>
+		/// Выступ спереди - h
+		/// </summary>
+		public Parameter FrontProjection
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "frontProjection");
+			}
+		}
 
-        /// <summary>
-        /// Толщина задней стенки - s
-        /// </summary>
-        public int PosteriorWallThickness { get; private set; }
+		/// <summary>
+		/// Толщина окантовки - h1
+		/// </summary>
+		public Parameter BorderThickness
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "borderThickness");
+			}
+		}
 
-        /// <summary>
-        /// Диаметр внешней стенки центрального отверстия - D
-        /// </summary>
-        public int OutDiameterCentralHole { get; private set; }
+		/// <summary>
+		/// Выступ сзади - h2
+		/// </summary>
+		public Parameter RearProjection
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "rearProjection");
+			}
+		}
 
-        /// <summary>
-        /// Расстояние между отверстиями - D1
-        /// </summary>
-        public int HolesDistance { get; private set; }
+		/// <summary>
+		/// Глубина центрального отверстия - l
+		/// </summary>
+		public Parameter CentralHoleDepth
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "centralHoleDepth");
+			}
+		}
 
-        /// <summary>
-        /// Диаметр внутренней стенки центрального отверстия - D2
-        /// </summary>
-        public int InDiameterCentralHole { get; private set; }
+		/// <summary>
+		/// Толщина задней стенки - s
+		/// </summary>
+		public Parameter PosteriorWallThickness
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "posteriorWallThickness");
+			}
+		}
+
+		/// <summary>
+		/// Диаметр внешней стенки центрального отверстия - D
+		/// </summary>
+		public Parameter OutDiameterCentralHole
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "outDiameterCentralHole");
+			}
+		}
+
+		/// <summary>
+		/// Расстояние между отверстиями - D1
+		/// </summary>
+		public Parameter HolesDistance
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "holesDistance");
+			}
+		}
+
+		/// <summary>
+		/// Диаметр внутренней стенки центрального отверстия - D2
+		/// </summary>
+		public Parameter InDiameterCentralHole
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "inDiameterCentralHole");
+			}
+		}
 
 		/// <summary>
 		/// Диаметр крышки подшипника - D3
 		/// </summary>
-		public int BearingCoverDiameter { get; private set; }
+		public Parameter BearingCoverDiameter
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "bearingCoverDiameter");
+			}
+		}
 
 		/// <summary>
 		/// Диаметр отверрстий - d
 		/// </summary>
-		public int HolesDiameter { get; private set; }
+		public Parameter HolesDiameter
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "holesDiameter");
+			}
+		}
 
 		/// <summary>
 		/// Диаметр вокруг отверстий - d1
 		/// </summary>
-		public int DistanceAroundHoles { get; private set; }
+		public Parameter DistanceAroundHoles
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "distanceAroundHoles");
+			}
+		}
 
 		/// <summary>
 		/// Цвет детали
@@ -291,7 +465,13 @@ namespace bearingCover
 		/// <summary>
 		/// Угол разреза
 		/// </summary>
-		public int AngleCut { get; private set; }
+		public Parameter AngleCut
+		{
+			get
+			{
+				return _parameters.Find(parameter => parameter.Name == "angleCut");
+			}
+		}
 
         /// <summary>
         /// Оператор "равно"
@@ -310,21 +490,21 @@ namespace bearingCover
                 return false;
             }
 
-            return a.HolesNumber == b.HolesNumber
-                && a.CoverThickness == b.CoverThickness
-                && a.FrontProjection == b.FrontProjection
-                && a.RearProjection == b.RearProjection
-                && a.BorderThickness == b.BorderThickness
-                && a.CentralHoleDepth == b.CentralHoleDepth
-                && a.PosteriorWallThickness == b.PosteriorWallThickness
-                && a.OutDiameterCentralHole == b.OutDiameterCentralHole
-                && a.HolesDistance == b.HolesDistance
-                && a.InDiameterCentralHole == b.InDiameterCentralHole
-				&& a.BearingCoverDiameter == b.BearingCoverDiameter
-				&& a.DistanceAroundHoles == b.DistanceAroundHoles
-				&& a.HolesDiameter == b.HolesDiameter
+            return a.HolesNumber.Value == b.HolesNumber.Value
+                && a.CoverThickness.Value == b.CoverThickness.Value
+				&& a.FrontProjection.Value == b.FrontProjection.Value
+				&& a.RearProjection.Value == b.RearProjection.Value
+				&& a.BorderThickness.Value == b.BorderThickness.Value
+				&& a.CentralHoleDepth.Value == b.CentralHoleDepth.Value
+				&& a.PosteriorWallThickness.Value == b.PosteriorWallThickness.Value
+				&& a.OutDiameterCentralHole.Value == b.OutDiameterCentralHole.Value
+				&& a.HolesDistance.Value == b.HolesDistance.Value
+				&& a.InDiameterCentralHole.Value == b.InDiameterCentralHole.Value
+				&& a.BearingCoverDiameter.Value == b.BearingCoverDiameter.Value
+				&& a.DistanceAroundHoles.Value == b.DistanceAroundHoles.Value
+				&& a.HolesDiameter.Value == b.HolesDiameter.Value
 				&& a.Color == b.Color
-				&& a.AngleCut == b.AngleCut;
+				&& a.AngleCut.Value == b.AngleCut.Value;
         }
 
         /// <summary>
